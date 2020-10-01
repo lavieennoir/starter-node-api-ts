@@ -1,0 +1,8 @@
+{
+  "rules": { 
+    "no-trailing-whitespace": 2,
+    "no-var-keyword": 2,
+    "no-consecutive-blank-lines": 2,
+    "no-return-await": 2
+  }
+}
