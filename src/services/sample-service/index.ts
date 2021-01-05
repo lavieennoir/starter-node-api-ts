@@ -1,3 +1,2 @@
-export const sum = (a: number, b: number) => {
-  return a + b;
-};
+export { default } from './sample-service.service';
+export { ISampleService } from './sample-service.interface';

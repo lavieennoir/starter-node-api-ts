@@ -1,4 +1,4 @@
-# Simple RPG Game
+# Node REST API TypeScript template
 
 # TODO
 

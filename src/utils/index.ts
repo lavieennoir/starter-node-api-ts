@@ -1,1 +1,3 @@
-export { default as Env } from './env';
+export * as Env from './env';
+
+export { IEnv, EnvMode } from './env';
