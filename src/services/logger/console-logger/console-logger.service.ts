@@ -1,10 +1,10 @@
-import { injectable } from 'inversify';
-
 import BaseLogger from '../base-logger';
 
-@injectable()
-export default class FileLogger implements BaseLogger {
+export default class ConsoleLogger implements BaseLogger {
   info(value: string): void {
+    console.info(value);
+  }
+  warn(value: string): void {
     console.info(value);
   }
   error(value: string): void {

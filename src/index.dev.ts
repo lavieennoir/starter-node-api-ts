@@ -1,17 +1,15 @@
 import { exit } from 'process';
-import IBaseLogger from 'services/base-logger';
-import { DIServiceType } from 'types';
+
+import logger from 'services/logger';
+import { env } from 'utils/env';
 
 import main from './index';
 
 main()
-  .then(([container, env]) => {
-    const logger = container.get<IBaseLogger>(
-      DIServiceType.DEFAULT_LOGGER_SERVICE
-    );
-
+  .then(() => {
     logger.info(`Server started on http://127.0.0.1:${env.port}`);
   })
-  .catch(() => {
+  .catch(e => {
+    logger.error(e);
     exit(1);
   });

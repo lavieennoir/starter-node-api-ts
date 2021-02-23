@@ -2,6 +2,8 @@ import dotenv from 'dotenv';
 import fs from 'fs';
 import { exit } from 'process';
 
+import logger from 'services/logger';
+
 // Load prod env at the very begining
 try {
   const prodEnv = dotenv.parse(fs.readFileSync('.env.prod'));
@@ -13,6 +15,7 @@ try {
 
 import main from './index';
 
-main().catch(() => {
+main().catch(e => {
+  logger.error(e);
   exit(1);
 });

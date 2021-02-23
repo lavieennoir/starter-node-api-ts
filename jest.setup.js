@@ -1,6 +1,5 @@
 const dotenv = require('dotenv');
 const fs = require('fs');
-require('reflect-metadata');
 
 let env = {};
 let testEnv = {};

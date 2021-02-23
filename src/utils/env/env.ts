@@ -8,49 +8,53 @@ const envMode =
     ? (process.env.NODE_ENV.toLowerCase() as EnvMode)
     : EnvMode.DEV_ENV;
 
-const isEnv = (mode: EnvMode) =>
-  envMode.toLowerCase() === mode;
+const isEnv = (mode: EnvMode) => envMode.toLowerCase() === mode;
 
-export const getEnvMode = () =>
-  envMode;
+export const getEnvMode = () => envMode;
 
-export const isDevEnv = () =>
-  isEnv(EnvMode.DEV_ENV);
+export const isDevEnv = () => isEnv(EnvMode.DEV_ENV);
 
-export const isProdEnv = () =>
-  isEnv(EnvMode.PROD_ENV);
+export const isProdEnv = () => isEnv(EnvMode.PROD_ENV);
 
-export const isTestEnv = () =>
-  isEnv(EnvMode.TEST_ENV);
+export const isTestEnv = () => isEnv(EnvMode.TEST_ENV);
+
+const mapEnvValues = {
+  bool: (envValue: string) => envValue === 'true',
+  number: (envValue: string, defaultValue: number) => {
+    const value = Number(envValue);
+
+    return Number.isNaN(value) ? defaultValue : value;
+  }
+};
 
 const mapEnv = (envData: NodeJS.ProcessEnv) => {
   const {
     PORT = '',
     USE_CORS = 'false',
-    RESPONSE_JSON_SIZE_LIMIT = '1000kb'
+    RESPONSE_JSON_SIZE_LIMIT = '1000kb',
+    ENABLE_REQUEST_LOGGING = 'false',
+    APP_NAME = ''
   } = envData;
 
-  const port = parseInt(PORT, 10);
   const defaultPort = 5000;
 
   const parsed: IEnv = {
-    port: Number.isNaN(port) ? defaultPort : port,
-    useCors: USE_CORS === 'true' ? true : false,
-    responseJsonSizeLimit: RESPONSE_JSON_SIZE_LIMIT
+    port: mapEnvValues.number(PORT, defaultPort),
+    useCors: mapEnvValues.bool(USE_CORS),
+    responseJsonSizeLimit: RESPONSE_JSON_SIZE_LIMIT,
+    enableRequestLogging: mapEnvValues.bool(ENABLE_REQUEST_LOGGING),
+    appName: APP_NAME
   };
 
-  return parsed;
+  return Object.freeze(parsed);
 };
 
-const env = mapEnv(process.env);
-
-export const getEnv = (): Readonly<IEnv> =>
-  env;
+export const env = mapEnv(process.env);
 
 export default {
   isDevEnv,
   isProdEnv,
   isTestEnv,
   getEnvMode,
-  getEnv
+  env
 };

@@ -7,4 +7,6 @@ export interface IEnv {
   port: number;
   useCors: boolean;
   responseJsonSizeLimit: string;
+  enableRequestLogging: boolean;
+  appName: string;
 }
