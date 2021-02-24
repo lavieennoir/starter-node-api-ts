@@ -1,12 +1,15 @@
 import express, { Express, Request, Response } from 'express';
 
 import cors from 'cors';
+import fs from 'fs';
 import helmet from 'helmet';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 import morgan from 'morgan';
 import path from 'path';
+import favicon from 'serve-favicon';
 
 import routesV1 from '@routes/v1';
+import logger from '@services/logger';
 import FileLogger from '@services/logger/file-logger';
 import { env, isDevEnv, isProdEnv } from '@utils/env';
 import { getBaseDir, setBaseDir } from '@utils/path';
@@ -42,13 +45,13 @@ const registerRequestLogger = (app: Express) => {
   }
 
   if (env.enableRequestLogging) {
-    const logger = new FileLogger({
+    const requestLogger = new FileLogger({
       path: path.join(getBaseDir(), '../logs/requests')
     });
 
     app.use(
       morgan('common', {
-        stream: logger.getStream()
+        stream: requestLogger.getStream()
       })
     );
   }
@@ -60,6 +63,16 @@ const registerContentTypes = (app: Express) => {
 };
 
 const registerRoutes = (app: Express) => {
+  // Serve favicon
+  const faviconPath = path.join(getBaseDir(), '../public/favicon.ico');
+  if (fs.existsSync(faviconPath)) {
+    app.use(favicon(faviconPath));
+  } else {
+    logger.warn(
+      'Webserver favicon is not set! This will result in 404 error logs when using request logger.'
+    );
+  }
+
   // Redirect index route to /v1
   app.get('/', (_req: express.Request, res: express.Response) => {
     res.redirect(StatusCodes.PERMANENT_REDIRECT, '/v1');
@@ -74,12 +87,15 @@ const registerServerErrorHandler = (app: Express) => {
     err: Error,
     _req: express.Request,
     res: express.Response,
-    _next: express.NextFunction
+    next: express.NextFunction
   ) {
     const responseMessage = `${ReasonPhrases.INTERNAL_SERVER_ERROR}${
       isProdEnv() ? '' : `\n${err.stack}`
     }`;
+
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(responseMessage);
+
+    next();
   });
 };
 
