@@ -11,10 +11,17 @@ import FileLogger from 'services/logger/file-logger';
 import { env, isDevEnv, isProdEnv } from 'utils/env';
 import { getBaseDir, setBaseDir } from 'utils/path';
 
+type RegistrationHandler =
+  | ((app: Express) => Promise<void>)
+  | ((app: Express) => void);
+
 setBaseDir(__dirname);
 export const expressApp = express();
 
 // TODO: move registrations to separate file
+// TODO: use airbnb ts lint
+// TODO: update prettier to fix tslint errors
+// TODO: handle USE_HTTPS env variable
 const registerSecurityRestrictions = (app: Express) => {
   if (env.useCors) {
     app.use(cors());
@@ -82,9 +89,7 @@ const registerServerListener = async (app: Express) =>
   });
 
 const createServer = async () => {
-  const registrationHandlers: Array<
-    ((app: Express) => Promise<void>) | ((app: Express) => void)
-  > = [
+  const registrationHandlers: Array<RegistrationHandler> = [
     registerSecurityRestrictions,
     registerRequestLogger,
     registerContentTypes,

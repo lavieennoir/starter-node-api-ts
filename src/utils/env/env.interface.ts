@@ -5,6 +5,7 @@ export enum EnvMode {
 }
 export interface IEnv {
   port: number;
+  useHttps: boolean;
   useCors: boolean;
   responseJsonSizeLimit: string;
   enableRequestLogging: boolean;

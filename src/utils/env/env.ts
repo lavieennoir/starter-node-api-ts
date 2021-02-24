@@ -30,6 +30,7 @@ const mapEnvValues = {
 const mapEnv = (envData: NodeJS.ProcessEnv) => {
   const {
     PORT = '',
+    USE_HTTPS = 'false',
     USE_CORS = 'false',
     RESPONSE_JSON_SIZE_LIMIT = '1000kb',
     ENABLE_REQUEST_LOGGING = 'false',
@@ -40,6 +41,7 @@ const mapEnv = (envData: NodeJS.ProcessEnv) => {
 
   const parsed: IEnv = {
     port: mapEnvValues.number(PORT, defaultPort),
+    useHttps: mapEnvValues.bool(USE_HTTPS),
     useCors: mapEnvValues.bool(USE_CORS),
     responseJsonSizeLimit: RESPONSE_JSON_SIZE_LIMIT,
     enableRequestLogging: mapEnvValues.bool(ENABLE_REQUEST_LOGGING),
