@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 import fs from 'fs';
 import { exit } from 'process';
 
-import logger from 'services/logger';
+import logger from '@services/logger';
 
 // Load prod env at the very begining
 try {

@@ -1,7 +1,7 @@
 import path from 'path';
 
-import { isProdEnv } from 'utils/env';
-import { getBaseDir } from 'utils/path';
+import { isProdEnv } from '@utils/env';
+import { getBaseDir } from '@utils/path';
 
 import ConsoleLogger from './console-logger';
 import FileLogger from './file-logger';

@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import apiVersion from 'controllers/api-version';
+import apiVersion from '@controllers/api-version';
 
 const router = Router();
 

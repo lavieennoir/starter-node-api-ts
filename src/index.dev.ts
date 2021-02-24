@@ -1,7 +1,7 @@
 import { exit } from 'process';
 
-import logger from 'services/logger';
-import { env } from 'utils/env';
+import logger from '@services/logger';
+import { env } from '@utils/env';
 
 import main from './index';
 

@@ -6,10 +6,10 @@ import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 import morgan from 'morgan';
 import path from 'path';
 
-import routesV1 from 'routes/v1';
-import FileLogger from 'services/logger/file-logger';
-import { env, isDevEnv, isProdEnv } from 'utils/env';
-import { getBaseDir, setBaseDir } from 'utils/path';
+import routesV1 from '@routes/v1';
+import FileLogger from '@services/logger/file-logger';
+import { env, isDevEnv, isProdEnv } from '@utils/env';
+import { getBaseDir, setBaseDir } from '@utils/path';
 
 type RegistrationHandler =
   | ((app: Express) => Promise<void>)

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import { env } from 'utils/env';
+import { env } from '@utils/env';
 
 const index = (_req: Request, res: Response) =>
   res.json({
