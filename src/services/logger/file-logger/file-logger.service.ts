@@ -10,6 +10,7 @@ export default class FileLogger implements BaseLogger {
   };
 
   info: (value: string) => void;
+  success: (value: string) => void;
   warn: (value: string) => void;
   error: (value: string) => void;
   trace: (value: string) => void;
@@ -21,6 +22,7 @@ export default class FileLogger implements BaseLogger {
     this.stream = createStream(this.fileNameGenerator, mergedOptions);
 
     this.info = this.log('info');
+    this.success = this.log('success');
     this.warn = this.log('warn');
     this.error = this.log('error');
     this.trace = this.log('trace');
@@ -50,9 +52,9 @@ export default class FileLogger implements BaseLogger {
     return `${month}${day}-${index}.log`;
   };
 
-  private readonly log = (type: 'info' | 'warn' | 'error' | 'trace') => (
-    value: string
-  ) => {
+  private readonly log = (
+    type: 'info' | 'success' | 'warn' | 'error' | 'trace'
+  ) => (value: string) => {
     this.stream.write(`${type.toUpperCase()}: ${value}`);
   };
 }

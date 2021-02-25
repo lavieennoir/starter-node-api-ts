@@ -1,13 +1,29 @@
+import chalk from 'chalk';
 import { exit } from 'process';
 
 import logger from '@services/logger';
-import { env } from '@utils/env';
 
 import main from './index';
+import { Network } from './utils';
 
 main()
   .then(() => {
-    logger.info(`Server started on http://127.0.0.1:${env.port}`);
+    const padSize = 16;
+
+    logger.info(`Server started (${new Date().toUTCString()})\n`);
+    logger.info(
+      chalk.white(
+        chalk.bold('Local:'.padEnd(padSize)),
+        Network.getLocalIpAddress()
+      )
+    );
+    logger.info(
+      chalk.white(
+        chalk.bold('On Your Network:'.padEnd(padSize)),
+        Network.getLocalNetworkIpAddress(),
+        '\n'
+      )
+    );
   })
   .catch(e => {
     logger.error(e);
